@@ -23,7 +23,14 @@ The lectures and labs can be found on the tabs in the top navigation bar.  An on
 
 # References
 
-You can download the reference papers [here](https://github.com/Fish-Forecast/Catch-Forecasting-INCOIS/tree/master/references).  We are replicating the work in [Stergio and Christou 1997](https://fish-forecast.github.io/Catch-Forecasting-INCOIS/references/Stergiou and Christou 1996 modelling and forecasting annual landings. comparison of regression and ts.pdf).
+## References
+
+We will be using classic methods for catch forecasting discussed in the following reference papers:
+
+* We are replicating the work in [Stergio and Christou 1996](https://doi.org/10.1016/0165-7836(95)00389-4). See their [ResearchGate page](https://www.researchgate.net/publication/223836928_Modelling_and_forecasting_annual_fisheries_catches_Comparison_of_regression_univariate_and_multivariate_time_series_methods) for PDF reprint.
+* These methods are also discussed in [Lawer 2016](http://dx.doi.org/10.4236/nr.2016.74018).  Open-Source PDF.
+* And in [Georgakarakos et al 2006](https://doi.org/10.1016/j.fishres.2005.12.003).  A PDF reprint is available on the [Hellenic Center for Marine Research website](http://arch.her.hcmr.gr/publ.htm).
+* The chapter on modeling seasonal catch data will use models discussed in [Stergiou et al 1997](https://doi.org/10.1016/S0165-7836(96)00482-1). See their [ResearchGate page](https://www.researchgate.net/publication/222888388_Modelling_and_forecasting_monthly_fisheries_catches_Comparison_of_regression_univariate_and_multivariate_time_series_methods) for PDF reprint.
 
 # Links
 
