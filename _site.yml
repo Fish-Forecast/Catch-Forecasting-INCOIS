@@ -29,3 +29,5 @@ output:
     toc_float:
       collapsed: false
     css: styles.css
+    include:
+      in_header: header.html

@@ -2012,8 +2012,9 @@ landings = subset(landings, Year &lt;= 1987)</code></pre>
 </table>
 
 <pre class="r"><code>unique(landings$Species)</code></pre>
-<pre><code>## [1] &quot;Anchovy&quot;        &quot;Sardine&quot;        &quot;Chub.mackerel&quot;  &quot;Horse.mackerel&quot;
-## [5] &quot;Mackerel&quot;       &quot;Jack.Mackerel&quot;</code></pre>
+<pre><code>## [1] Anchovy        Sardine        Chub.mackerel  Horse.mackerel
+## [5] Mackerel       Jack.Mackerel 
+## 6 Levels: Anchovy Sardine Chub.mackerel Horse.mackerel ... Jack.Mackerel</code></pre>
 </div>
 <div id="subset-the-data" class="section level1">
 <h1>Subset the data</h1>
@@ -2286,8 +2287,9 @@ checkresiduals(model)</code></pre>
 <li>Try fitting a 4th order time-varying regression for one of the other species.</li>
 </ol>
 <pre class="r"><code>unique(landings$Species)</code></pre>
-<pre><code>## [1] &quot;Anchovy&quot;        &quot;Sardine&quot;        &quot;Chub.mackerel&quot;  &quot;Horse.mackerel&quot;
-## [5] &quot;Mackerel&quot;       &quot;Jack.Mackerel&quot;</code></pre>
+<pre><code>## [1] Anchovy        Sardine        Chub.mackerel  Horse.mackerel
+## [5] Mackerel       Jack.Mackerel 
+## 6 Levels: Anchovy Sardine Chub.mackerel Horse.mackerel ... Jack.Mackerel</code></pre>
 <ol style="list-style-type: lower-alpha">
 <li>Fit a 4th order polynomial.</li>
 <li>Do a <code>summary(model)</code> and evaluate what level of polynomial is supported.</li>

@@ -9,6 +9,8 @@ library(fontawesome)
 
 This week we will learn a number of standard approaches for forecasting from catch time series.  We will be using the data and methods discussed in Stergiou and Christou (1996) Modelling and forecasting annual fisheries catches: comparison of regression, univariate and multivariate time series methods. Fisheries Research 25: 105-136.
 
+The lectures and labs can be found on the tabs in the top navigation bar.  An online book of the material is [here](https://fish-forecast.github.io/Fish-Forecast-Bookdown/).
+
 # Course Syllabus
 
 <img style="float: right" src="https://rverse-tutorials.github.io/Fish-Forecast-Training-Course/images/fish-forecast.jpg" width=20%>

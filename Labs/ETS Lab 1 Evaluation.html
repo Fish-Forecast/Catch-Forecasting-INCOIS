@@ -1961,7 +1961,7 @@ div.tocify {
 <div id="set-up" class="section level1">
 <h1>Set-up</h1>
 <p>We will define the training data as 1964 to 1987 and the test data as 1988 and 1989.</p>
-<pre class="r"><code>load(&quot;landings.RData&quot;)
+<pre class="r"><code>load(&quot;../landings.RData&quot;)
 spp &lt;- &quot;Anchovy&quot;
 landings$log.metric.tons &lt;- log(landings$metric.tons)
 landings &lt;- subset(landings, Species==spp)
@@ -1970,7 +1970,7 @@ testdat &lt;- subset(landings, Year == 1988 | Year==1989)$log.metric.tons
 n.fr &lt;- length(testdat)</code></pre>
 <p>Load the necessary packages.</p>
 <pre class="r"><code>library(forecast)
-library(tseries)</code></pre>
+library(stringr)</code></pre>
 <div id="fit-each-of-our-candidate-models" class="section level2">
 <h2>Fit each of our candidate models</h2>
 <p>We will store these in a list for easy access. <code>fun.list</code> is the function to pass to <code>tsCV()</code>.</p>
@@ -2060,7 +2060,7 @@ modelnames</code></pre>
 <div id="now-we-can-go-through-each-model" class="section level2">
 <h2>Now we can go through each model</h2>
 <p>We will run the models and compute the forecast metrics for each and put in a table.</p>
-<pre class="r"><code>restab &lt;- data.frame(model=modelnames, RMSE=NA, ME=NA, tsCV.RMSE=NA, AIC=NA, BIC=NA)
+<pre class="r"><code>restab &lt;- data.frame(model=modelnames, RMSE=NA, ME=NA, tsCV.RMSE=NA, AIC=NA, BIC=NA, stringsAsFactors = FALSE)
 for(i in modelnames){
   fit &lt;- fit.list[[i]]
   fr &lt;- fr.list[[i]]
@@ -2071,191 +2071,122 @@ for(i in modelnames){
   restab$AIC[restab$model==i] &lt;- AIC(fit)
   restab$BIC[restab$model==i] &lt;- BIC(fit)
 }</code></pre>
+<p>Add on <span class="math inline">\(\Delta\)</span>AIC and <span class="math inline">\(\Delta\)</span>BIC. Sort by <span class="math inline">\(\Delta\)</span>AIC and format to have 3 digits.</p>
+<pre class="r"><code>restab$DeltaAIC &lt;- restab$AIC-min(restab$AIC)
+restab$DeltaBIC &lt;- restab$BIC-min(restab$BIC)
+restab &lt;- restab[order(restab$DeltaAIC),]
+resfor &lt;- format(restab, digits=3, trim=TRUE)</code></pre>
+<p>Bold the minimum values in each column so they are easy to spot.</p>
+<pre class="r"><code>for(i in colnames(resfor)){
+  if(class(restab[,i])==&quot;character&quot;) next
+  if(i!=&quot;ME&quot;) testval &lt;- restab[,i] else testval &lt;- abs(restab[,i])
+  theminrow &lt;- which(testval==min(testval))
+  resfor[theminrow, i] &lt;- paste0(&quot;**&quot;,resfor[theminrow,i],&quot;**&quot;)
+}</code></pre>
 <p>This is the table of FORECAST performance metrics. Not how well it fits the data, but how well it forecasts out of the data. RSME and ME are for the 2 data points in 1988 and 1989 that were held out for testing. tsCV.RMSE is the RSME for the time-series crossvalidation that makes a series of forecasts for each point in the data. AIC and BIC are information criteria, which are a measure of data support for each model.</p>
-<pre class="r"><code>knitr::kable(restab, format=&quot;html&quot;)</code></pre>
+<pre class="r"><code>knitr::kable(resfor)</code></pre>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-model
-</th>
-<th style="text-align:right;">
-RMSE
-</th>
-<th style="text-align:right;">
-ME
-</th>
-<th style="text-align:right;">
-tsCV.RMSE
-</th>
-<th style="text-align:right;">
-AIC
-</th>
-<th style="text-align:right;">
-BIC
-</th>
+<tr class="header">
+<th></th>
+<th align="left">model</th>
+<th align="left">RMSE</th>
+<th align="left">ME</th>
+<th align="left">tsCV.RMSE</th>
+<th align="left">AIC</th>
+<th align="left">BIC</th>
+<th align="left">DeltaAIC</th>
+<th align="left">DeltaBIC</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-ETSwtrend
-</td>
-<td style="text-align:right;">
-0.5384355
-</td>
-<td style="text-align:right;">
--0.5001701
-</td>
-<td style="text-align:right;">
-0.2508591
-</td>
-<td style="text-align:right;">
-3.668449
-</td>
-<td style="text-align:right;">
-9.5587183
-</td>
+<tr class="odd">
+<td>5</td>
+<td align="left">TVreglinear</td>
+<td align="left"><strong>0.195</strong></td>
+<td align="left"><strong>-0.114</strong></td>
+<td align="left">0.247</td>
+<td align="left"><strong>-7.00</strong></td>
+<td align="left">-3.4611</td>
+<td align="left"><strong>0.00000</strong></td>
+<td align="left">0.123</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ETSnotrend
-</td>
-<td style="text-align:right;">
-0.3168383
-</td>
-<td style="text-align:right;">
--0.2889496
-</td>
-<td style="text-align:right;">
-0.2223355
-</td>
-<td style="text-align:right;">
-6.764613
-</td>
-<td style="text-align:right;">
-10.2987745
-</td>
+<tr class="even">
+<td>3</td>
+<td align="left">ARIMA011wdrift</td>
+<td align="left">0.370</td>
+<td align="left">-0.332</td>
+<td align="left">0.231</td>
+<td align="left">-6.99</td>
+<td align="left"><strong>-3.5844</strong></td>
+<td align="left">0.00443</td>
+<td align="left"><strong>0.000</strong></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ARIMA011wdrift
-</td>
-<td style="text-align:right;">
-0.3698342
-</td>
-<td style="text-align:right;">
--0.3324540
-</td>
-<td style="text-align:right;">
-0.2307833
-</td>
-<td style="text-align:right;">
--6.990860
-</td>
-<td style="text-align:right;">
--3.5843769
-</td>
+<tr class="odd">
+<td>4</td>
+<td align="left">ARIMA210wdrift</td>
+<td align="left">0.381</td>
+<td align="left">-0.347</td>
+<td align="left">0.224</td>
+<td align="left">-6.08</td>
+<td align="left">-1.5399</td>
+<td align="left">0.91340</td>
+<td align="left">2.044</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-ARIMA210wdrift
-</td>
-<td style="text-align:right;">
-0.3806919
-</td>
-<td style="text-align:right;">
--0.3466221
-</td>
-<td style="text-align:right;">
-0.2244186
-</td>
-<td style="text-align:right;">
--6.081892
-</td>
-<td style="text-align:right;">
--1.5399148
-</td>
+<tr class="even">
+<td>7</td>
+<td align="left">Naivewtrend</td>
+<td align="left">0.510</td>
+<td align="left">-0.483</td>
+<td align="left">0.239</td>
+<td align="left">-2.18</td>
+<td align="left">0.0883</td>
+<td align="left">4.81255</td>
+<td align="left">3.673</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-TVreglinear
-</td>
-<td style="text-align:right;">
-0.1954189
-</td>
-<td style="text-align:right;">
--0.1135076
-</td>
-<td style="text-align:right;">
-0.2472289
-</td>
-<td style="text-align:right;">
--6.995291
-</td>
-<td style="text-align:right;">
--3.4611299
-</td>
+<tr class="odd">
+<td>6</td>
+<td align="left">Naive</td>
+<td align="left">0.406</td>
+<td align="left">-0.384</td>
+<td align="left"><strong>0.220</strong></td>
+<td align="left">-2.06</td>
+<td align="left">-0.9247</td>
+<td align="left">4.93505</td>
+<td align="left">2.660</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Naive
-</td>
-<td style="text-align:right;">
-0.4056341
-</td>
-<td style="text-align:right;">
--0.3842453
-</td>
-<td style="text-align:right;">
-0.2203829
-</td>
-<td style="text-align:right;">
--2.060243
-</td>
-<td style="text-align:right;">
--0.9247485
-</td>
+<tr class="even">
+<td>1</td>
+<td align="left">ETSwtrend</td>
+<td align="left">0.538</td>
+<td align="left">-0.500</td>
+<td align="left">0.251</td>
+<td align="left">3.67</td>
+<td align="left">9.5587</td>
+<td align="left">10.66374</td>
+<td align="left">13.143</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Naivewtrend
-</td>
-<td style="text-align:right;">
-0.5096293
-</td>
-<td style="text-align:right;">
--0.4829045
-</td>
-<td style="text-align:right;">
-0.2386116
-</td>
-<td style="text-align:right;">
--2.182738
-</td>
-<td style="text-align:right;">
-0.0882501
-</td>
+<tr class="odd">
+<td>2</td>
+<td align="left">ETSnotrend</td>
+<td align="left">0.317</td>
+<td align="left">-0.289</td>
+<td align="left">0.222</td>
+<td align="left">6.76</td>
+<td align="left">10.2988</td>
+<td align="left">13.75990</td>
+<td align="left">13.883</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Average
-</td>
-<td style="text-align:right;">
-0.6559616
-</td>
-<td style="text-align:right;">
-0.6429549
-</td>
-<td style="text-align:right;">
-0.4756759
-</td>
-<td style="text-align:right;">
-33.036330
-</td>
-<td style="text-align:right;">
-35.3924373
-</td>
+<tr class="even">
+<td>8</td>
+<td align="left">Average</td>
+<td align="left">0.656</td>
+<td align="left">0.643</td>
+<td align="left">0.476</td>
+<td align="left">33.04</td>
+<td align="left">35.3924</td>
+<td align="left">40.03162</td>
+<td align="left">38.977</td>
 </tr>
 </tbody>
 </table>
