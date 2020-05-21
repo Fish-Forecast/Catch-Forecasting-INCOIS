@@ -42,5 +42,5 @@ We will be using classic methods for catch forecasting discussed in the followin
 
 
 <div style="text-align: center">
-<i class="fas fa-cubes"></i> NOAA Fisheries - NW Fisheries Science Center <i class="fas fa-cubes"></i>
+<i class="fas fa-cubes"></i> -------------------------------------- <i class="fas fa-cubes"></i>
 </div>

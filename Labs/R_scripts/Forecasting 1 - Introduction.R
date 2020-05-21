@@ -1,7 +1,8 @@
-## ----load-packages, include=FALSE, message=FALSE-------------------------
+## ----load-packages, include=FALSE, message=FALSE------------------------------
 require(ggplot2)
 
-## ----load_data, fig.align = "center", fig.height = 4, fig.width = 8------
+
+## ----load_data, fig.align = "center", fig.height = 4, fig.width = 8-----------
 load("landings.RData")
 landings$log.metric.tons = log(landings$metric.tons)
 landings = subset(landings, Year <= 1989)
