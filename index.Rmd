@@ -23,8 +23,6 @@ The lectures and labs can be found on the tabs in the top navigation bar.  An on
 
 # References
 
-## References
-
 We will be using classic methods for catch forecasting discussed in the following reference papers:
 
 * We are replicating the work in [Stergio and Christou 1996](https://doi.org/10.1016/0165-7836(95)00389-4). See their [ResearchGate page](https://www.researchgate.net/publication/223836928_Modelling_and_forecasting_annual_fisheries_catches_Comparison_of_regression_univariate_and_multivariate_time_series_methods) for PDF reprint.

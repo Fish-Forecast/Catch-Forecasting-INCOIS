@@ -6,7 +6,7 @@ navbar:
     - text: "Set-up"
       href: setup.html
     - text: "Introduction"
-      href: Forecasting_1_-_Introduction.html
+      href: Forecasting-1---Introduction.html
     - text: "TV Regresson"
       href: TV-Regression.html
     - text: "ARMA Models"
